@@ -1,41 +1,20 @@
 server:
-  port: 8888
-spring:
-  application:
-    name: yier-zuul
-
+  port: 5000
 eureka:
-  instance:
-    prefer-ip-address: true
-    instance-id: yier-zuul
   client:
     serviceUrl:
-      defaultZone: http://localhost:3000/eureka/
-zuul:
-  ignored-services: "*"  #静止使用微服务名称调用
-  routes:
-    user:
-      #比如我要调用user可能只要一个/user就好了 而不是/service-user
-      serviceId: service-user
-      path: /user/**
-    client:
-      serviceId: service-client
-      path: /client/**
-  prefix: /api #请求路径添加前缀
-    #use-routing:
-      #sensitiveHeaders:
-  #sensitive-headers:
-  ignoredHeaders:
-
-
-feign:
-  hystrix:
-    enabled: false
-  client:
-    config:
-      default:  # 服务名，default表示所有服务
-        connectTimeout: 10000
-        readTimeout: 60000
-        loggerLevel: full  # full | basic | none | headers
+      defaultZone: http://localhost:3000/eureka/  #eureka服务端提供的注册地址 参考服务端配置的这个路径
+  instance:
+    instance-id: user-0 #此实例注册到eureka服务端的唯一的实例ID
+    prefer-ip-address: true #是否显示IP地址
+    leaseRenewalIntervalInSeconds: 10 #eureka客户需要多长时间发送心跳给eureka服务器，表明它仍然活着,默认为30 秒 (与下面配置的单位都是秒)
+    leaseExpirationDurationInSeconds: 40 #Eureka服务器在接收到实例的最后一次发出的心跳后，需要等待多久才可以将此实例删除，默认为90秒
+spring:
+  application:
+    name: service-user #此实例注册到eureka服务端的name
+  servlet:
+    multipart:
+      max-file-size: 4000MB
+      max-request-size: 4000MB
 yier: 
   value: N
