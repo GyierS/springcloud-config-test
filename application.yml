@@ -37,3 +37,5 @@ feign:
         connectTimeout: 10000
         readTimeout: 60000
         loggerLevel: full  # full | basic | none | headers
+yier: 
+  value: N
